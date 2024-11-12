@@ -1,0 +1,37 @@
+
+networks:
+  projdoctrine_net:
+    driver: bridge
+    name: projdoctrine_net
+
+volumes:
+  projdoctrine-mysql-data:
+
+services:
+  web:
+    networks:
+      - projdoctrine_net
+    build: .
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    networks:
+      - projdoctrine_net
+    environment:
+      - MYSQL_ROOT_PASSWORD=101010
+      - MYSQL_DATABASE=projdoctrine
+      - MYSQL_USER=projdoctrine
+      - MYSQL_PASSWORD=101010
+    ports:
+      - "3306:3306"
+    volumes:
+      - projdoctrine-mysql-data:/var/lib/mysql
+    restart: unless-stopped
+
+
