@@ -10,8 +10,9 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\ManyToMany;
 use Doctrine\ORM\Mapping\OneToMany;
+use doctrine\Repository\DoctrineStudentRepository;
 
-#[Entity]
+#[Entity(repositoryClass: DoctrineStudentRepository::class)]
 class Student
 {
     #[Id, GeneratedValue, Column]
@@ -20,7 +21,8 @@ class Student
     #[OneToMany(
         targetEntity: Phone::class,
         mappedBy:"student",
-        cascade: ["persist", "remove"]
+        cascade: ["persist", "remove"],
+        fetch: 'EAGER'
     )]
     private Collection $phones;
     #[ManyToMany(targetEntity: Course::class, inversedBy:"students")]

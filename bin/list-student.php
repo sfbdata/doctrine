@@ -10,9 +10,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 $entityManager = EntityManagerCreator::createEntityManager();
 
 $studentRepository = $entityManager->getRepository(Student::class);
-
-/** @var Student[] $studentList */
-$studentList = $studentRepository->findAll();
+$studentList = $studentRepository->studentsAndCourses();
 
 
 foreach ($studentList as $student){
@@ -39,5 +37,10 @@ foreach ($studentList as $student){
 }
 
 
-$count = $studentRepository->count([]);
+$studentClass = Student::class;
+$dqlc = "SELECT COUNT(student) FROM $studentClass student";
+
+var_dump($entityManager->createQuery($dqlc)->getSingleScalarResult());
+
+$count = count($studentList);
 echo "Total de alunos: $count" . PHP_EOL;
