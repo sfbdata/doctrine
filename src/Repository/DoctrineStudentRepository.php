@@ -14,7 +14,7 @@ class DoctrineStudentRepository extends EntityRepository
             ->addSelect('phone')
             ->addSelect('course')
             ->leftJoin('student.phones', 'phone')
-            ->leftJoin('student.courses', 'courses')
+            ->leftJoin('student.courses', 'course')
             ->getQuery()
             ->getResult();
         /**
